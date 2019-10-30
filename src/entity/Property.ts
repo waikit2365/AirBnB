@@ -1,6 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable} from "typeorm";
 import { Booking } from "./Booking";
 import { Owner } from "./Owner";
+import { Tags } from "./Tags";
 
 @Entity()
 export class Property {
@@ -10,9 +11,6 @@ export class Property {
 
     @Column()
     address: string;
-
-    @Column()
-    owner_id: number;
 
     @ManyToOne(type => Owner)
     @JoinColumn({ name: 'owner_id' })
@@ -26,4 +24,8 @@ export class Property {
 
     @OneToMany (type => Booking, booking => booking.user)
     bookings: Booking[]
+
+    @ManyToMany(type => Tags)
+    @JoinTable()
+    properties_tags: Tags[];
 }
